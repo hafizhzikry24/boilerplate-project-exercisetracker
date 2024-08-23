@@ -5,27 +5,32 @@ require('dotenv').config()
 
 app.use(cors())
 app.use(express.static('public'))
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-let users = [];
-let exercises = [];
+let users = []; 
+let exercises = []; 
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-app.post('/api/users', (req,res) => {
-  const{username} = req.body;
+
+app.post('/api/users', (req, res) => {
+  const { username } = req.body;
   const newUser = {
-    _id : users.length + 1,
+    _id: users.length + 1, 
     username,
   };
-
   users.push(newUser);
   res.json(newUser);
-
 });
+
+
+app.get('/api/users', (req, res) => {
+  res.json(users.map(user => ({ username: user.username, _id: user._id })));
+});
+
 
 app.post('/api/users/:_id/exercises', (req, res) => {
   const { _id } = req.params;
@@ -83,10 +88,6 @@ app.get('/api/users/:_id/logs', (req, res) => {
   });
 });
 
-
-
-
-
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
-})
+});
