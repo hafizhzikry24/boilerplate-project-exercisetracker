@@ -27,9 +27,11 @@ app.post('/api/users', (req, res) => {
 });
 
 
+
 app.get('/api/users', (req, res) => {
   res.json(users.map(user => ({ username: user.username, _id: user._id })));
 });
+
 
 
 app.post('/api/users/:_id/exercises', (req, res) => {
